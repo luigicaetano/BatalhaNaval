@@ -10,7 +10,7 @@ def criar_navios(tamanho):
     navio = Rect(x_inicial, y_inicial, 46, 46*tamanho)
     navios.append(navio)
 
-def conferir_navio():
+#def conferir_navio():
 
 
 def main():
