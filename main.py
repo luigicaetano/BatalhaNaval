@@ -5,12 +5,16 @@ import random
 
 
 def criar_navios(tamanho):
+    orientacao = random.choice([1, 2])
     x_inicial = random.choice(options)
     y_inicial = random.choice(options)
-    navio = Rect(x_inicial, y_inicial, 46, 46*tamanho)
+    if orientacao == 1:
+        navio = Rect(x_inicial, y_inicial, 46*tamanho, 46)
+    else:
+        navio = Rect(x_inicial, y_inicial, 46, 46*tamanho)
     navios.append(navio)
 
-def conferir_navio():
+#def conferir_navio():
 
 
 def main():
@@ -76,6 +80,12 @@ def main():
 
 navios = []
 options = [70, 116, 162, 208, 254, 300, 346, 392, 438, 484]
+coordenadas = []
+
+for x in options:
+    for y in options:
+        coordenadas.append([x, y])
+
 
 if __name__ == "__main__":
     main()
