@@ -183,9 +183,11 @@ def main():
     acerto = pygame.image.load('images/acerto.png').convert()
     acerto = pygame.transform.scale(acerto, (46, 46))
 
-    for i in coordenadas:
-        novo_mar = Rect(i[0], i[1], 46, 46)
-        mares.append(novo_mar)
+    pontos = 20
+    font = pygame.font.Font('freesansbold.ttf', 20)
+    text = font.render("Erros restantes: " + str(pontos), True, (255, 255, 255), (0, 0, 0))
+    textRect = text.get_rect()
+    textRect.center = (300, 570)
 
     criar_navios(1)
     criar_navios(1)
@@ -200,8 +202,14 @@ def main():
     criar_navios(4)
     criar_navios(5)
 
+    for i in coordenadas:
+        novo_mar = Rect(i[0], i[1], 46, 46)
+        mares.append(novo_mar)
+
     screen.blit(bg, (0, 0))
     running = True
+
+    print(navios)
 
     while running:
 
@@ -215,6 +223,8 @@ def main():
                 for p in mares:
                     if p.collidepoint(mouse_pos):
                         screen.blit(mar, (p[0], p[1]))
+                        pontos = pontos - 1
+                        text = font.render(f'Pontos restantes: {pontos}', True, (255, 255, 255), (0, 0, 0))
                 for p in navios:
                     if p.collidepoint(mouse_pos):
                         for i in range(len(options) - 1):
@@ -231,7 +241,8 @@ def main():
                             else:
                                 y_pos = 484
                         screen.blit(acerto, (x_pos, y_pos))
-
+        screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
+        screen.blit(text, textRect)
         pygame.display.update()
 
 
