@@ -209,7 +209,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
-                print(mouse_pos[0])
+                #print(mouse_pos[0])
                 for p in mares:
                     if p.collidepoint(mouse_pos):
                         screen.blit(mar, (p[0], p[1]))
@@ -218,7 +218,7 @@ def main():
                 for p in navios:
                     if p.collidepoint(mouse_pos):
                         for i in range(len(options) - 1):
-                            print(mouse_pos[0], options[i + 1])
+                            #print(mouse_pos[0], options[i + 1])
                             if mouse_pos[0] < options[i + 1]:
                                 x_pos = options[i]
                                 break
