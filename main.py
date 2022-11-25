@@ -59,34 +59,24 @@ def regras_navios(orientacao, tamanho):
     coord = ""
     if orientacao == 1 and tamanho == 1:
         coord = random.choice(coordenadas)
-        print(f'Coordenadas: {coord}')
     if orientacao == 1 and tamanho == 2:
         coord = random.choice(coordenadas2_1)
-        print(f'Coordenadas: {coord}')
     if orientacao == 2 and tamanho == 2:
         coord = random.choice(coordenadas2_2)
-        print(f'Coordenadas: {coord}')
     if orientacao == 1 and tamanho == 3:
         coord = random.choice(coordenadas3_1)
-        print(f'Coordenadas: {coord}')
     if orientacao == 2 and tamanho == 3:
         coord = random.choice(coordenadas3_2)
-        print(f'Coordenadas: {coord}')
     if orientacao == 1 and tamanho == 4:
         coord = random.choice(coordenadas4_1)
-        print(f'Coordenadas: {coord}')
     if orientacao == 2 and tamanho == 4:
         coord = random.choice(coordenadas4_2)
-        print(f'Coordenadas: {coord}')
     if orientacao == 1 and tamanho == 5:
         coord = random.choice(coordenadas5_1)
-        print(f'Coordenadas: {coord}')
     if orientacao == 2 and tamanho == 5:
         coord = random.choice(coordenadas5_2)
-        print(f'Coordenadas: {coord}')
     if orientacao == 2 and tamanho == 1:
         coord = random.choice(coordenadas)
-        print(f'Coordenadas: {coord}')
     return coord
 
 
