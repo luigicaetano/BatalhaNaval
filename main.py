@@ -84,26 +84,26 @@ def evita_colisao(tam, orient, x_inicial, y_inicial):
     tam -= 1
     while tam >= 0:
         if orient == 1:
-            print(f'Tamanho: {tam}, x a remover: {(tam * 46) + x_inicial}, y a remover: {y_inicial}')
-            print(f'Coordenadas: {coordenadas}')
+            #print(f'Tamanho: {tam}, x a remover: {(tam * 46) + x_inicial}, y a remover: {y_inicial}')
+            #print(f'Coordenadas: {coordenadas}')
             removidos.append([(tam * 46) + x_inicial, y_inicial])
             coordenadas.remove([(tam * 46) + x_inicial, y_inicial])
         else:
-            print(f'Tamanho: {tam}, x a remover: {x_inicial}, y a remover: {(tam * 46) + y_inicial}')
-            print(f'Coordenadas: {coordenadas}')
+            #print(f'Tamanho: {tam}, x a remover: {x_inicial}, y a remover: {(tam * 46) + y_inicial}')
+            #print(f'Coordenadas: {coordenadas}')
             removidos.append([x_inicial, (tam * 46) + y_inicial])
             coordenadas.remove([x_inicial, (tam * 46) + y_inicial])
         tam -= 1
     coordenadas_alteradas()
-    print(coordenadas2_1)
-    print(coordenadas2_2)
-    print(coordenadas3_1)
-    print(coordenadas3_2)
-    print(coordenadas4_1)
-    print(coordenadas4_2)
-    print(coordenadas5_1)
-    print(coordenadas5_2)
-    print(f' Removidos: {removidos}')
+    #print(coordenadas2_1)
+    #print(coordenadas2_2)
+    #print(coordenadas3_1)
+    #print(coordenadas3_2)
+    #print(coordenadas4_1)
+    #print(coordenadas4_2)
+    #print(coordenadas5_1)
+    #print(coordenadas5_2)
+    #print(f' Removidos: {removidos}')
 
 def confere_colisao(tam, orient):
     conferindo = True
@@ -117,11 +117,11 @@ def confere_colisao(tam, orient):
         else:
             navio_atual.append([navio_coord[0], (tam1 * 46) + navio_coord[1]])
         tam1 -= 1
-    print(f'Navio atual {navio_atual}')
+    #print(f'Navio atual {navio_atual}')
     while conferindo:
         tam2 = tam - 1
         if any(x in navio_atual for x in removidos):
-            print(f'Errado: {navio_atual}')
+            #print(f'Errado: {navio_atual}')
             nova_coord = regras_navios(orient, tam)
             navio_atual = []
             while tam2 >= 0:
@@ -131,7 +131,7 @@ def confere_colisao(tam, orient):
                     navio_atual.append([nova_coord[0], (tam2 * 46) + nova_coord[1]])
                 tam2 -= 1
         else:
-            print(f'Certo: {navio_atual}')
+            #print(f'Certo: {navio_atual}')
             conferindo = False
     return nova_coord
 
@@ -199,7 +199,7 @@ def main():
     screen.blit(bg, (0, 0))
     running = True
 
-    print(navios)
+    #print(navios)
 
     while running:
 
