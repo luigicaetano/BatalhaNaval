@@ -179,8 +179,8 @@ def main():
     textRect = text.get_rect()
     textRect.center = (300, 570)
 
-    criar_navios(1)
-    criar_navios(1)
+    #criar_navios(1)
+    #criar_navios(1)
     criar_navios(2)
     criar_navios(2)
     criar_navios(2)
@@ -215,6 +215,8 @@ def main():
                         screen.blit(mar, (p[0], p[1]))
                         pontos = pontos - 1
                         text = font.render(f'Pontos restantes: {pontos}', True, (255, 255, 255), (0, 0, 0))
+                        if(pontos <= 0):
+                            text = font.render(f'GAME OVER!!', True, (255, 255, 255), (0, 0, 0))
                 for p in navios:
                     if p.collidepoint(mouse_pos):
                         for i in range(len(options) - 1):
@@ -237,4 +239,5 @@ def main():
 
 
 if __name__ == "__main__":
+    coordenadas_alteradas()
     main()
