@@ -59,24 +59,34 @@ def regras_navios(orientacao, tamanho):
     coord = ""
     if orientacao == 1 and tamanho == 1:
         coord = random.choice(coordenadas)
-    elif orientacao == 1 and tamanho == 2:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 1 and tamanho == 2:
         coord = random.choice(coordenadas2_1)
-    elif orientacao == 2 and tamanho == 2:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 2 and tamanho == 2:
         coord = random.choice(coordenadas2_2)
-    elif orientacao == 1 and tamanho == 3:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 1 and tamanho == 3:
         coord = random.choice(coordenadas3_1)
-    elif orientacao == 2 and tamanho == 3:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 2 and tamanho == 3:
         coord = random.choice(coordenadas3_2)
-    elif orientacao == 1 and tamanho == 4:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 1 and tamanho == 4:
         coord = random.choice(coordenadas4_1)
-    elif orientacao == 2 and tamanho == 4:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 2 and tamanho == 4:
         coord = random.choice(coordenadas4_2)
-    elif orientacao == 1 and tamanho == 5:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 1 and tamanho == 5:
         coord = random.choice(coordenadas5_1)
-    elif orientacao == 2 and tamanho == 5:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 2 and tamanho == 5:
         coord = random.choice(coordenadas5_2)
-    elif orientacao == 2 and tamanho == 1:
+        print(f'Coordenadas: {coord}')
+    if orientacao == 2 and tamanho == 1:
         coord = random.choice(coordenadas)
+        print(f'Coordenadas: {coord}')
     return coord
 
 
@@ -84,11 +94,13 @@ def evita_colisao(tam, orient, x_inicial, y_inicial):
     tam -= 1
     while tam >= 0:
         if orient == 1:
-            print(f'Tamanho: {tam}, x_inicial: {x_inicial}, y_inicial: {y_inicial}')
+            print(f'Tamanho: {tam}, x a remover: {(tam * 46) + x_inicial}, y a remover: {y_inicial}')
+            print(f'Coordenadas: {coordenadas}')
             removidos.append([(tam * 46) + x_inicial, y_inicial])
             coordenadas.remove([(tam * 46) + x_inicial, y_inicial])
         else:
-            print(f'Tamanho: {tam}, x_inicial: {x_inicial}, y_inicial: {y_inicial}')
+            print(f'Tamanho: {tam}, x a remover: {x_inicial}, y a remover: {(tam * 46) + y_inicial}')
+            print(f'Coordenadas: {coordenadas}')
             removidos.append([x_inicial, (tam * 46) + y_inicial])
             coordenadas.remove([x_inicial, (tam * 46) + y_inicial])
         tam -= 1
@@ -103,37 +115,40 @@ def evita_colisao(tam, orient, x_inicial, y_inicial):
     print(coordenadas5_2)
     print(f' Removidos: {removidos}')
 
-def confere_colisao(tam, orient, x_inicial, y_inicial):
+def confere_colisao(tam, orient):
     conferindo = True
+    navio_coord = regras_navios(orient, tam)
+    nova_coord = [navio_coord[0], navio_coord[1]]
     navio_atual = []
-    tam -= 1
-    while tam >= 0:
+    tam1 = tam - 1
+    while tam1 >= 0:
         if orient == 1:
-            navio_atual.append([(tam * 46) + x_inicial, y_inicial])
+            navio_atual.append([(tam1 * 46) + navio_coord[0], navio_coord[1]])
         else:
-            navio_atual.append([x_inicial, (tam * 46) + y_inicial])
-        tam -= 1
-
+            navio_atual.append([navio_coord[0], (tam1 * 46) + navio_coord[1]])
+        tam1 -= 1
+    print(f'Navio atual {navio_atual}')
     while conferindo:
-        for i in navio_atual:
-            if i in removidos:
-                print(f'Errado: {navio_atual}')
-                nova_coord = regras_navios(orient, tam)
-                while tam > 0:
-                    if orient == 1:
-                        navio_atual.append([(tam * 46) + nova_coord[0], nova_coord[1]])
-                    else:
-                        navio_atual.append([nova_coord[0], (tam * 46) + nova_coord[1]])
-                    tam -= 1
-            else:
-                conferindo = False
-                print(f'Certo: {navio_atual}')
-
+        tam2 = tam - 1
+        if any(x in navio_atual for x in removidos):
+            print(f'Errado: {navio_atual}')
+            nova_coord = regras_navios(orient, tam)
+            navio_atual = []
+            while tam2 >= 0:
+                if orient == 1:
+                    navio_atual.append([(tam2 * 46) + nova_coord[0], nova_coord[1]])
+                else:
+                    navio_atual.append([nova_coord[0], (tam2 * 46) + nova_coord[1]])
+                tam2 -= 1
+        else:
+            print(f'Certo: {navio_atual}')
+            conferindo = False
+    return nova_coord
 
 def criar_navios(tamanho):
     orientacao = random.choice([1, 2])
-    coord = regras_navios(orientacao, tamanho)
-    confere_colisao(tamanho, orientacao, coord[0], coord[1])
+    #coord = regras_navios(orientacao, tamanho)
+    coord = confere_colisao(tamanho, orientacao)
 
     x_inicial = coord[0]
     y_inicial = coord[1]
@@ -168,18 +183,33 @@ def main():
     acerto = pygame.image.load('images/acerto.png').convert()
     acerto = pygame.transform.scale(acerto, (46, 46))
 
+    pontos = 20
+    font = pygame.font.Font('freesansbold.ttf', 20)
+    text = font.render("Erros restantes: " + str(pontos), True, (255, 255, 255), (0, 0, 0))
+    textRect = text.get_rect()
+    textRect.center = (300, 570)
+
+    criar_navios(1)
+    criar_navios(1)
+    criar_navios(2)
+    criar_navios(2)
+    criar_navios(2)
+    criar_navios(2)
+    criar_navios(3)
+    criar_navios(3)
+    criar_navios(3)
+    criar_navios(4)
+    criar_navios(4)
+    criar_navios(5)
+
     for i in coordenadas:
         novo_mar = Rect(i[0], i[1], 46, 46)
         mares.append(novo_mar)
 
-    criar_navios(1)
-    criar_navios(2)
-    criar_navios(3)
-    criar_navios(4)
-    criar_navios(5)
-
     screen.blit(bg, (0, 0))
     running = True
+
+    print(navios)
 
     while running:
 
@@ -193,6 +223,8 @@ def main():
                 for p in mares:
                     if p.collidepoint(mouse_pos):
                         screen.blit(mar, (p[0], p[1]))
+                        pontos = pontos - 1
+                        text = font.render(f'Pontos restantes: {pontos}', True, (255, 255, 255), (0, 0, 0))
                 for p in navios:
                     if p.collidepoint(mouse_pos):
                         for i in range(len(options) - 1):
@@ -209,7 +241,8 @@ def main():
                             else:
                                 y_pos = 484
                         screen.blit(acerto, (x_pos, y_pos))
-
+        screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
+        screen.blit(text, textRect)
         pygame.display.update()
 
 
