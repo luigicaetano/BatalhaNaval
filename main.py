@@ -355,7 +355,9 @@ def main(n):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                running = False
                 pygame.quit()
+                break
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
@@ -368,6 +370,7 @@ def main(n):
                         text = font.render(
                             f'Erros restantes: {pontos}', True, (250, 250, 250), (78, 187, 174))
                         if pontos <= 0:
+                            screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
                             text = font.render(
                                 f'GAME OVER!!', True, (250, 250, 250), (78, 187, 174))
                             screen.blit(text, textRect)
@@ -434,8 +437,11 @@ def main(n):
                                                   (250, 250, 250),
                                                   (78, 187, 174))
                         if navios_acertados == 0:
+                            screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
+                            screen.blit(text_navios, naviosRect)
                             text = font.render(
                                 f'YOU WIN!!', True, (250, 250, 250), (78, 187, 174))
+                            screen.blit(text, textRect)
                             for p in mares:
                                 p.w = 0
                                 p.h = 0
@@ -453,24 +459,28 @@ def main(n):
                     else:
                         counter = 0
 
-        screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
-        screen.blit(text, textRect)
-        screen.blit(text_navios, naviosRect)
-        pygame.display.update()
+        if running:
+            screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
+            screen.blit(text, textRect)
+            screen.blit(text_navios, naviosRect)
+            pygame.display.update()
 
     while aguardando:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 aguardando = False
+                pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
                 if sim.collidepoint(mouse_pos):
                     screen.fill((0, 0, 0))
+                    aguardando = False
                     jogar_novamente()
                     main(n)
                 if nao.collidepoint(mouse_pos):
                     aguardando = False
+                    pygame.quit()
 
 
 pygame.init()
@@ -498,8 +508,8 @@ def Instruction_menu():
     pygame.display.set_caption("Menu")
 
     BG = pygame.image.load("images/Background.jpg")
-
-    while True:
+    instruction = True
+    while instruction:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
         SCREEN.blit(BG, (0, 0))
@@ -539,21 +549,26 @@ def Instruction_menu():
                 if PLAY_Facil.checkForInput(PLAY_MOUSE_POS):
                     pygame.quit()
                     coordenadas_alteradas()
+                    instruction = False
                     main(60)
                 if PLAY_Medio.checkForInput(PLAY_MOUSE_POS):
                     pygame.quit()
                     coordenadas_alteradas()
+                    instruction = False
                     main(45)
                 if PLAY_Dificil.checkForInput(PLAY_MOUSE_POS):
                     pygame.quit()
                     coordenadas_alteradas()
+                    instruction = False
                     main(30)
 
-        pygame.display.update()
+        if instruction:
+            pygame.display.update()
 
 
 def menu_principal():
-    while True:
+    menu = True
+    while menu:
         SCREEN.blit(BG, (0, 0))
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -575,16 +590,20 @@ def menu_principal():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                menu = False
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
+                    menu = False
                     Instruction_menu()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
+                    menu = False
                     sys.exit()
 
-        pygame.display.update()
+        if menu:
+            pygame.display.update()
 
 
 menu_principal()
