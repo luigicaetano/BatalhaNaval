@@ -158,6 +158,59 @@ def escolher_imagem(tamanho, orientacao):
     return imagem
 
 
+def jogar_novamente():
+    global navios
+    global navio_acertado
+    global navios_coord
+    global mares
+    global options
+    global coordenadas
+    global removidos
+    global coordenadas2_1
+    global coordenadas2_2
+    global coordenadas3_1
+    global coordenadas3_2
+    global coordenadas4_1
+    global coordenadas4_2
+    global coordenadas5_1
+    global coordenadas5_2
+
+    navios = []
+    navio_acertado = [[1, 1]]
+    navios_coord = []
+    mares = []
+    options = [70, 116, 162, 208, 254, 300, 346, 392, 438, 484]
+    coordenadas = [[70, 70], [70, 116], [70, 162], [70, 208], [70, 254], [70, 300],
+                   [70, 346], [70, 392], [70, 438], [70, 484], [116, 70], [116, 116], [116, 162],
+                   [116, 208], [116, 254], [116, 300], [116, 346], [116, 392], [116, 438],
+                   [116, 484], [162, 70], [162, 116], [162, 162], [162, 208], [162, 254],
+                   [162, 300], [162, 346], [162, 392], [162, 438], [162, 484], [208, 70],
+                   [208, 116], [208, 162], [208, 208], [208, 254], [208, 300], [208, 346],
+                   [208, 392], [208, 438], [208, 484], [254, 70], [254, 116], [254, 162],
+                   [254, 208], [254, 254], [254, 300], [254, 346], [254, 392], [254, 438],
+                   [254, 484], [300, 70], [300, 116], [300, 162], [300, 208], [300, 254],
+                   [300, 300], [300, 346], [300, 392], [300, 438], [300, 484], [346, 70],
+                   [346, 116], [346, 162], [346, 208], [346, 254], [346, 300], [346, 346],
+                   [346, 392], [346, 438], [346, 484], [392, 70], [392, 116], [392, 162],
+                   [392, 208], [392, 254], [392, 300], [392, 346], [392, 392], [392, 438],
+                   [392, 484], [438, 70], [438, 116], [438, 162], [438, 208], [438, 254],
+                   [438, 300], [438, 346], [438, 392], [438, 438], [438, 484], [484, 70],
+                   [484, 116], [484, 162], [484, 208], [484, 254], [484, 300], [484, 346],
+                   [484, 392], [484, 438], [484, 484]]
+    removidos = []
+
+    coordenadas2_1 = []
+    coordenadas2_2 = []
+    coordenadas3_1 = []
+    coordenadas3_2 = []
+    coordenadas4_1 = []
+    coordenadas4_2 = []
+    coordenadas5_1 = []
+    coordenadas5_2 = []
+
+    coordenadas_alteradas()
+
+
 def main():
     global barco2_1
     global barco2_2
@@ -225,6 +278,22 @@ def main():
     naviosRect = text_navios.get_rect()
     naviosRect.center = (450, 570)
 
+    final = pygame.Surface((300,300))
+    final.fill((78, 187, 174))
+
+    text_jogar_novamente = font.render("Jogar novamente?", True, (250, 250, 250), (78, 187, 174))
+    jogar_novamenterect = text_jogar_novamente.get_rect()
+    jogar_novamenterect.center = (300, 250)
+
+    font2 = pygame.font.Font('freesansbold.ttf', 25)
+    text_sim = font2.render("Sim", True, (250, 250, 250), (101, 96, 99))
+    sim = text_sim.get_rect()
+    sim.center = (250, 350)
+
+    text_nao = font2.render("Não", True, (250, 250, 250), (101, 96, 99))
+    nao = text_nao.get_rect()
+    nao.center = (350, 350)
+
     criar_navios(2)
     criar_navios(2)
     criar_navios(2)
@@ -242,6 +311,7 @@ def main():
 
     screen.blit(bg, (0, 0))
     running = True
+    aguardando = False
 
     while running:
 
@@ -260,6 +330,20 @@ def main():
                         text = font.render(f'Erros restantes: {pontos}', True, (250, 250, 250), (78, 187, 174))
                         if pontos <= 0:
                             text = font.render(f'GAME OVER!!', True, (250, 250, 250), (78, 187, 174))
+                            screen.blit(text, textRect)
+                            for t in mares:
+                                t.w = 0
+                                t.h = 0
+                            for k in navios:
+                                k.w = 0
+                                k.h = 0
+                            screen.blit(final, (150, 150))
+                            screen.blit(text_jogar_novamente, jogar_novamenterect)
+                            screen.blit(text_sim, sim)
+                            screen.blit(text_nao, nao)
+                            pygame.display.update()
+                            running = False
+                            aguardando = True
                 for p in navios:
                     if p.collidepoint(mouse_pos):
                         for i in range(len(options) - 1):
@@ -309,7 +393,19 @@ def main():
                                                   (78, 187, 174))
                         if navios_acertados == 0:
                             text = font.render(f'YOU WIN!!', True, (250, 250, 250), (78, 187, 174))
-                        break
+                            for p in mares:
+                                p.w = 0
+                                p.h = 0
+                            for p in navios:
+                                p.w = 0
+                                p.h = 0
+                            screen.blit(final, (150, 150))
+                            screen.blit(text_jogar_novamente, jogar_novamenterect)
+                            screen.blit(text_sim, sim)
+                            screen.blit(text_nao, nao)
+                            pygame.display.update()
+                            running = False
+                            aguardando = True
                     else:
                         counter = 0
 
@@ -318,6 +414,19 @@ def main():
         screen.blit(text_navios, naviosRect)
         pygame.display.update()
 
+    while aguardando:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                aguardando = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                if sim.collidepoint(mouse_pos):
+                    screen.fill((0, 0, 0))
+                    jogar_novamente()
+                    main()
+                if nao.collidepoint(mouse_pos):
+                    aguardando = False
 
 if __name__ == "__main__":
     coordenadas_alteradas()
