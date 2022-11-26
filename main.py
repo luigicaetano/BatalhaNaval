@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
 import random
+import sys
+from button import Button
 
 navios = []
 navio_acertado = [[1, 1]]
@@ -8,21 +10,36 @@ navios_coord = []
 mares = []
 options = [70, 116, 162, 208, 254, 300, 346, 392, 438, 484]
 coordenadas = [[70, 70], [70, 116], [70, 162], [70, 208], [70, 254], [70, 300],
-               [70, 346], [70, 392], [70, 438], [70, 484], [116, 70], [116, 116], [116, 162],
-               [116, 208], [116, 254], [116, 300], [116, 346], [116, 392], [116, 438],
-               [116, 484], [162, 70], [162, 116], [162, 162], [162, 208], [162, 254],
-               [162, 300], [162, 346], [162, 392], [162, 438], [162, 484], [208, 70],
-               [208, 116], [208, 162], [208, 208], [208, 254], [208, 300], [208, 346],
-               [208, 392], [208, 438], [208, 484], [254, 70], [254, 116], [254, 162],
-               [254, 208], [254, 254], [254, 300], [254, 346], [254, 392], [254, 438],
-               [254, 484], [300, 70], [300, 116], [300, 162], [300, 208], [300, 254],
-               [300, 300], [300, 346], [300, 392], [300, 438], [300, 484], [346, 70],
-               [346, 116], [346, 162], [346, 208], [346, 254], [346, 300], [346, 346],
-               [346, 392], [346, 438], [346, 484], [392, 70], [392, 116], [392, 162],
-               [392, 208], [392, 254], [392, 300], [392, 346], [392, 392], [392, 438],
-               [392, 484], [438, 70], [438, 116], [438, 162], [438, 208], [438, 254],
-               [438, 300], [438, 346], [438, 392], [438, 438], [438, 484], [484, 70],
-               [484, 116], [484, 162], [484, 208], [484, 254], [484, 300], [484, 346],
+               [70, 346], [70, 392], [70, 438], [70, 484], [
+                   116, 70], [116, 116], [116, 162],
+               [116, 208], [116, 254], [116, 300], [
+                   116, 346], [116, 392], [116, 438],
+               [116, 484], [162, 70], [162, 116], [
+                   162, 162], [162, 208], [162, 254],
+               [162, 300], [162, 346], [162, 392], [
+                   162, 438], [162, 484], [208, 70],
+               [208, 116], [208, 162], [208, 208], [
+                   208, 254], [208, 300], [208, 346],
+               [208, 392], [208, 438], [208, 484], [
+                   254, 70], [254, 116], [254, 162],
+               [254, 208], [254, 254], [254, 300], [
+                   254, 346], [254, 392], [254, 438],
+               [254, 484], [300, 70], [300, 116], [
+                   300, 162], [300, 208], [300, 254],
+               [300, 300], [300, 346], [300, 392], [
+                   300, 438], [300, 484], [346, 70],
+               [346, 116], [346, 162], [346, 208], [
+                   346, 254], [346, 300], [346, 346],
+               [346, 392], [346, 438], [346, 484], [
+                   392, 70], [392, 116], [392, 162],
+               [392, 208], [392, 254], [392, 300], [
+                   392, 346], [392, 392], [392, 438],
+               [392, 484], [438, 70], [438, 116], [
+                   438, 162], [438, 208], [438, 254],
+               [438, 300], [438, 346], [438, 392], [
+                   438, 438], [438, 484], [484, 70],
+               [484, 116], [484, 162], [484, 208], [
+                   484, 254], [484, 300], [484, 346],
                [484, 392], [484, 438], [484, 484]]
 removidos = []
 
@@ -113,9 +130,11 @@ def confere_colisao(tam, orient):
             navio_atual = []
             while tam2 >= 0:
                 if orient == 1:
-                    navio_atual.append([(tam2 * 46) + nova_coord[0], nova_coord[1]])
+                    navio_atual.append(
+                        [(tam2 * 46) + nova_coord[0], nova_coord[1]])
                 else:
-                    navio_atual.append([nova_coord[0], (tam2 * 46) + nova_coord[1]])
+                    navio_atual.append(
+                        [nova_coord[0], (tam2 * 46) + nova_coord[1]])
                 tam2 -= 1
         else:
             navios_coord.append(navio_atual)
@@ -130,7 +149,8 @@ def criar_navios(tamanho):
     x_inicial = coord[0]
     y_inicial = coord[1]
     if orientacao == 1:
-        navio = Rect(x_inicial, y_inicial, 46 * tamanho, 46)  # 46 é o tamanho de cada quadrado
+        # 46 é o tamanho de cada quadrado
+        navio = Rect(x_inicial, y_inicial, 46 * tamanho, 46)
     else:  # tanto na horizontal quanto na vertical
         navio = Rect(x_inicial, y_inicial, 46, 46 * tamanho)
     navios.append(navio)
@@ -181,21 +201,36 @@ def jogar_novamente():
     mares = []
     options = [70, 116, 162, 208, 254, 300, 346, 392, 438, 484]
     coordenadas = [[70, 70], [70, 116], [70, 162], [70, 208], [70, 254], [70, 300],
-                   [70, 346], [70, 392], [70, 438], [70, 484], [116, 70], [116, 116], [116, 162],
-                   [116, 208], [116, 254], [116, 300], [116, 346], [116, 392], [116, 438],
-                   [116, 484], [162, 70], [162, 116], [162, 162], [162, 208], [162, 254],
-                   [162, 300], [162, 346], [162, 392], [162, 438], [162, 484], [208, 70],
-                   [208, 116], [208, 162], [208, 208], [208, 254], [208, 300], [208, 346],
-                   [208, 392], [208, 438], [208, 484], [254, 70], [254, 116], [254, 162],
-                   [254, 208], [254, 254], [254, 300], [254, 346], [254, 392], [254, 438],
-                   [254, 484], [300, 70], [300, 116], [300, 162], [300, 208], [300, 254],
-                   [300, 300], [300, 346], [300, 392], [300, 438], [300, 484], [346, 70],
-                   [346, 116], [346, 162], [346, 208], [346, 254], [346, 300], [346, 346],
-                   [346, 392], [346, 438], [346, 484], [392, 70], [392, 116], [392, 162],
-                   [392, 208], [392, 254], [392, 300], [392, 346], [392, 392], [392, 438],
-                   [392, 484], [438, 70], [438, 116], [438, 162], [438, 208], [438, 254],
-                   [438, 300], [438, 346], [438, 392], [438, 438], [438, 484], [484, 70],
-                   [484, 116], [484, 162], [484, 208], [484, 254], [484, 300], [484, 346],
+                   [70, 346], [70, 392], [70, 438], [70, 484], [
+                       116, 70], [116, 116], [116, 162],
+                   [116, 208], [116, 254], [116, 300], [
+                       116, 346], [116, 392], [116, 438],
+                   [116, 484], [162, 70], [162, 116], [
+                       162, 162], [162, 208], [162, 254],
+                   [162, 300], [162, 346], [162, 392], [
+                       162, 438], [162, 484], [208, 70],
+                   [208, 116], [208, 162], [208, 208], [
+                       208, 254], [208, 300], [208, 346],
+                   [208, 392], [208, 438], [208, 484], [
+                       254, 70], [254, 116], [254, 162],
+                   [254, 208], [254, 254], [254, 300], [
+                       254, 346], [254, 392], [254, 438],
+                   [254, 484], [300, 70], [300, 116], [
+                       300, 162], [300, 208], [300, 254],
+                   [300, 300], [300, 346], [300, 392], [
+                       300, 438], [300, 484], [346, 70],
+                   [346, 116], [346, 162], [346, 208], [
+                       346, 254], [346, 300], [346, 346],
+                   [346, 392], [346, 438], [346, 484], [
+                       392, 70], [392, 116], [392, 162],
+                   [392, 208], [392, 254], [392, 300], [
+                       392, 346], [392, 392], [392, 438],
+                   [392, 484], [438, 70], [438, 116], [
+                       438, 162], [438, 208], [438, 254],
+                   [438, 300], [438, 346], [438, 392], [
+                       438, 438], [438, 484], [484, 70],
+                   [484, 116], [484, 162], [484, 208], [
+                       484, 254], [484, 300], [484, 346],
                    [484, 392], [484, 438], [484, 484]]
     removidos = []
 
@@ -211,7 +246,7 @@ def jogar_novamente():
     coordenadas_alteradas()
 
 
-def main():
+def main(n):
     global barco2_1
     global barco2_2
     global barco3_1
@@ -266,22 +301,25 @@ def main():
     barco5_2 = pygame.image.load('images/barco5-2.png').convert()
     barco5_2 = pygame.transform.scale(barco5_2, (46, 230))
 
-    pontos = 30
+    pontos = n
     font = pygame.font.Font('freesansbold.ttf', 20)
-    text = font.render("Erros restantes: " + str(pontos), True, (250, 250, 250), (78, 187, 174))
+    text = font.render("Erros restantes: " + str(pontos),
+                       True, (250, 250, 250), (78, 187, 174))
     textRect = text.get_rect()
     textRect.center = (150, 570)
 
     navios_acertados = 10
 
-    text_navios = font.render("Navios restantes: " + str(navios_acertados), True, (250, 250, 250), (78, 187, 174))
+    text_navios = font.render(
+        "Navios restantes: " + str(navios_acertados), True, (250, 250, 250), (78, 187, 174))
     naviosRect = text_navios.get_rect()
     naviosRect.center = (450, 570)
 
-    final = pygame.Surface((300,300))
+    final = pygame.Surface((300, 300))
     final.fill((78, 187, 174))
 
-    text_jogar_novamente = font.render("Jogar novamente?", True, (250, 250, 250), (78, 187, 174))
+    text_jogar_novamente = font.render(
+        "Jogar novamente?", True, (250, 250, 250), (78, 187, 174))
     jogar_novamenterect = text_jogar_novamente.get_rect()
     jogar_novamenterect.center = (300, 250)
 
@@ -317,7 +355,7 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
@@ -327,9 +365,11 @@ def main():
                         p.h = 0
                         screen.blit(mar, (p[0], p[1]))
                         pontos = pontos - 1
-                        text = font.render(f'Erros restantes: {pontos}', True, (250, 250, 250), (78, 187, 174))
+                        text = font.render(
+                            f'Erros restantes: {pontos}', True, (250, 250, 250), (78, 187, 174))
                         if pontos <= 0:
-                            text = font.render(f'GAME OVER!!', True, (250, 250, 250), (78, 187, 174))
+                            text = font.render(
+                                f'GAME OVER!!', True, (250, 250, 250), (78, 187, 174))
                             screen.blit(text, textRect)
                             for t in mares:
                                 t.w = 0
@@ -338,7 +378,8 @@ def main():
                                 k.w = 0
                                 k.h = 0
                             screen.blit(final, (150, 150))
-                            screen.blit(text_jogar_novamente, jogar_novamenterect)
+                            screen.blit(text_jogar_novamente,
+                                        jogar_novamenterect)
                             screen.blit(text_sim, sim)
                             screen.blit(text_nao, nao)
                             pygame.display.update()
@@ -383,7 +424,8 @@ def main():
                                     tamanho_navio = int(p[3]/p[2])
                                 p.w = 0
                                 p.h = 0
-                                barco = escolher_imagem(tamanho_navio, orientacao_navio)
+                                barco = escolher_imagem(
+                                    tamanho_navio, orientacao_navio)
                                 screen.blit(barco, (x_navio, y_navio))
                         navios_coord.remove(i)
                         counter = 0
@@ -392,7 +434,8 @@ def main():
                                                   (250, 250, 250),
                                                   (78, 187, 174))
                         if navios_acertados == 0:
-                            text = font.render(f'YOU WIN!!', True, (250, 250, 250), (78, 187, 174))
+                            text = font.render(
+                                f'YOU WIN!!', True, (250, 250, 250), (78, 187, 174))
                             for p in mares:
                                 p.w = 0
                                 p.h = 0
@@ -400,7 +443,8 @@ def main():
                                 p.w = 0
                                 p.h = 0
                             screen.blit(final, (150, 150))
-                            screen.blit(text_jogar_novamente, jogar_novamenterect)
+                            screen.blit(text_jogar_novamente,
+                                        jogar_novamenterect)
                             screen.blit(text_sim, sim)
                             screen.blit(text_nao, nao)
                             pygame.display.update()
@@ -424,10 +468,123 @@ def main():
                 if sim.collidepoint(mouse_pos):
                     screen.fill((0, 0, 0))
                     jogar_novamente()
-                    main()
+                    main(n)
                 if nao.collidepoint(mouse_pos):
                     aguardando = False
 
-if __name__ == "__main__":
-    coordenadas_alteradas()
-    main()
+
+pygame.init()
+
+SCREEN = pygame.display.set_mode((600, 600))
+pygame.display.set_caption("Menu")
+
+BG = pygame.image.load("images/Background.jpg")
+
+
+def get_font(size):  # Returns Press-Start-2P in the desired size
+    return pygame.font.Font("images/font.ttf", size)
+
+
+def printing_text(text, place, tela):
+    INSTRUCTION_TEXT = get_font(10).render(text, True, "White")
+    INSTRUCTION_RECT = INSTRUCTION_TEXT.get_rect(center=(300, place))
+    tela.blit(INSTRUCTION_TEXT, INSTRUCTION_RECT)
+
+
+def Instruction_menu():
+    pygame.init()
+
+    SCREEN = pygame.display.set_mode((600, 600))
+    pygame.display.set_caption("Menu")
+
+    BG = pygame.image.load("images/Background.jpg")
+
+    while True:
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+
+        SCREEN.blit(BG, (0, 0))
+
+        PLAY_TEXT = get_font(35).render("Instruções:", True, "White")
+        PLAY_RECT = PLAY_TEXT.get_rect(center=(300, 50))
+        SCREEN.blit(PLAY_TEXT, PLAY_RECT)
+
+        printing_text(
+            "Há 10 navios no mapa, são eles 4 navios de tamanho 2", 150, SCREEN)
+        printing_text(
+            "3 navios de tamanho 3, 2 navios de tamanho 4 e 1 na-", 200, SCREEN)
+        printing_text("vio de tamanho 5. Exploda todos eles!", 250, SCREEN)
+        printing_text("Escolha a dificuldade desejada", 350, SCREEN)
+
+        PLAY_Facil = Button(image=None, pos=(100, 550),
+                            text_input="Fácil", font=get_font(25), base_color="White", hovering_color="Green")
+        PLAY_Medio = Button(image=None, pos=(300, 550),
+                            text_input="Médio", font=get_font(25), base_color="White", hovering_color="Green")
+        PLAY_Dificil = Button(image=None, pos=(500, 550),
+                              text_input="Díficil", font=get_font(25), base_color="White", hovering_color="Green")
+
+        PLAY_Facil.changeColor(PLAY_MOUSE_POS)
+        PLAY_Facil.update(SCREEN)
+
+        PLAY_Medio.changeColor(PLAY_MOUSE_POS)
+        PLAY_Medio.update(SCREEN)
+
+        PLAY_Dificil.changeColor(PLAY_MOUSE_POS)
+        PLAY_Dificil.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAY_Facil.checkForInput(PLAY_MOUSE_POS):
+                    pygame.quit()
+                    coordenadas_alteradas()
+                    main(60)
+                if PLAY_Medio.checkForInput(PLAY_MOUSE_POS):
+                    pygame.quit()
+                    coordenadas_alteradas()
+                    main(45)
+                if PLAY_Dificil.checkForInput(PLAY_MOUSE_POS):
+                    pygame.quit()
+                    coordenadas_alteradas()
+                    main(30)
+
+        pygame.display.update()
+
+
+def menu_principal():
+    while True:
+        SCREEN.blit(BG, (0, 0))
+
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(35).render("Batalha Naval", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(300, 100))
+
+        PLAY_BUTTON = Button(image=pygame.image.load("images/Play Rect.png"), pos=(300, 200),
+                             text_input="Jogar", font=get_font(50), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=pygame.image.load("images/Quit Rect.png"), pos=(300, 400),
+                             text_input="Sair", font=get_font(50), base_color="#d7fcd4", hovering_color="White")
+
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+        for button in [PLAY_BUTTON, QUIT_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.quit()
+                    Instruction_menu()
+                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+
+        pygame.display.update()
+
+
+menu_principal()
