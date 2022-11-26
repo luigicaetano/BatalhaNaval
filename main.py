@@ -253,6 +253,8 @@ def main():
                 mouse_pos = event.pos
                 for p in mares:
                     if p.collidepoint(mouse_pos):
+                        p.w = 0
+                        p.h = 0
                         screen.blit(mar, (p[0], p[1]))
                         pontos = pontos - 1
                         text = font.render(f'Erros restantes: {pontos}', True, (250, 250, 250), (78, 187, 174))
