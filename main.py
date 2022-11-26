@@ -3,6 +3,8 @@ from pygame.locals import *
 import random
 
 navios = []
+navio_acertado = [[1, 1]]
+navios_coord = []
 mares = []
 options = [70, 116, 162, 208, 254, 300, 346, 392, 438, 484]
 coordenadas = [[70, 70], [70, 116], [70, 162], [70, 208], [70, 254], [70, 300],
@@ -132,6 +134,7 @@ def confere_colisao(tam, orient):
                 tam2 -= 1
         else:
             #print(f'Certo: {navio_atual}')
+            navios_coord.append(navio_atual)
             conferindo = False
     return nova_coord
 
@@ -173,11 +176,18 @@ def main():
     acerto = pygame.image.load('images/acerto.png').convert()
     acerto = pygame.transform.scale(acerto, (46, 46))
 
-    pontos = 20
+    pontos = 30
     font = pygame.font.Font('freesansbold.ttf', 20)
-    text = font.render("Erros restantes: " + str(pontos), True, (255, 255, 255), (0, 0, 0))
+    text = font.render("Erros restantes: " + str(pontos), True, (250, 250, 250), (78, 187, 174))
     textRect = text.get_rect()
-    textRect.center = (300, 570)
+    textRect.center = (150, 570)
+
+    acerto_point = 0
+
+    navios_acertados = 10
+    text_navios = font.render("Navios restantes: " + str(navios_acertados), True, (250, 250, 250), (78, 187, 174))
+    naviosRect = text_navios.get_rect()
+    naviosRect.center = (450, 570)
 
     #criar_navios(1)
     #criar_navios(1)
@@ -214,9 +224,9 @@ def main():
                     if p.collidepoint(mouse_pos):
                         screen.blit(mar, (p[0], p[1]))
                         pontos = pontos - 1
-                        text = font.render(f'Pontos restantes: {pontos}', True, (255, 255, 255), (0, 0, 0))
+                        text = font.render(f'Erros restantes: {pontos}', True, (250, 250, 250), (78, 187, 174))
                         if(pontos <= 0):
-                            text = font.render(f'GAME OVER!!', True, (255, 255, 255), (0, 0, 0))
+                            text = font.render(f'GAME OVER!!', True, (250, 250, 250), (78, 187, 174))
                 for p in navios:
                     if p.collidepoint(mouse_pos):
                         for i in range(len(options) - 1):
@@ -232,9 +242,30 @@ def main():
                                 break
                             else:
                                 y_pos = 484
+                        navio_acertado.append([x_pos, y_pos])
                         screen.blit(acerto, (x_pos, y_pos))
+                        acerto_point = acerto_point + 1
+                        if(acerto_point >= 30):
+                            text = font.render(f'YOU WIN!!', True, (250, 250, 250), (78, 187, 174))
+                counter = 0
+                for i in navios_coord:
+                    for k in i:
+                        if k in navio_acertado:
+                            counter += 1
+
+                    if counter == len(i):
+                        navios_coord.remove(i)
+                        counter = 0
+                        navios_acertados = navios_acertados - 1
+                        text_navios = font.render("Navios restantes: " + str(navios_acertados), True,
+                                                  (250, 250, 250),
+                                                  (78, 187, 174))
+                    else:
+                        counter = 0
+
         screen.fill((78, 187, 174), Rect(0, 550, 600, 50))
         screen.blit(text, textRect)
+        screen.blit(text_navios, naviosRect)
         pygame.display.update()
 
 
