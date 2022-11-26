@@ -185,6 +185,7 @@ def main():
     acerto_point = 0
 
     navios_acertados = 10
+
     text_navios = font.render("Navios restantes: " + str(navios_acertados), True, (250, 250, 250), (78, 187, 174))
     naviosRect = text_navios.get_rect()
     naviosRect.center = (450, 570)
