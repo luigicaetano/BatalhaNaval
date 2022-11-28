@@ -264,8 +264,8 @@ def main(n):
     y_pos = ""
 
     screen = pygame.display.set_mode((x, y))
-    # logo = pygame.image.load("logo32x32.png")
-    # pygame.display.set_icon(logo)
+    logo = pygame.image.load("images/logo.png")
+    pygame.display.set_icon(logo)
     pygame.display.set_caption("Batalha Naval")
 
     bg = pygame.image.load('images/fundo.jpg').convert()
@@ -505,7 +505,9 @@ def Instruction_menu():
     pygame.init()
 
     SCREEN = pygame.display.set_mode((600, 600))
-    pygame.display.set_caption("Menu")
+    pygame.display.set_caption("Batalha Naval")
+    logo = pygame.image.load("images/logo.png")
+    pygame.display.set_icon(logo)
 
     BG = pygame.image.load("images/Background.jpg")
     instruction = True
@@ -568,6 +570,9 @@ def Instruction_menu():
 
 def menu_principal():
     menu = True
+    logo = pygame.image.load("images/logo.png")
+    pygame.display.set_icon(logo)
+    pygame.display.set_caption("Batalha Naval")
     while menu:
         SCREEN.blit(BG, (0, 0))
 
